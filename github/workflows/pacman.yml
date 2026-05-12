@@ -1,0 +1,30 @@
+name: Pacman Contribution Graph
+
+on:
+  schedule:
+    - cron: "0 */12 * * *"
+
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Generate Pacman Contribution Graph
+        uses: abozanona/pacman-contribution-graph@main
+        with:
+          github_user_name: prakc7
+
+      - name: Deploy generated files
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
+          publish_branch: output
